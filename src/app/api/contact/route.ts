@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // For example, save to database, send email, etc.
     
     try {
-      const { name, email, phone, message } = req.body;
+      const { name, email, message } = req.body;
       
       // Validate required fields
       if (!name || !email || !message) {

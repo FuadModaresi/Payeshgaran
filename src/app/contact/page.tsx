@@ -35,7 +35,7 @@ const ContactPage = () => {
       });
       setShowResult(true);
       setFormData({ name: '', email: '', phone: '', message: '' });
-    } catch (error) {
+    } catch {
       setSubmitResult({
         success: false,
         message: 'متأسفانه در ارسال پیام خطایی رخ داد. لطفاً دوباره تلاش کنید.'
