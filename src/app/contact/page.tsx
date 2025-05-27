@@ -74,7 +74,7 @@ const ContactPage = () => {
                   <div className="text-2xl ml-3">✉️</div>
                   <div>
                     <p className="font-semibold">ایمیل:</p>
-                    <p>info@payeshgaran-sadra.org</p>
+                    <p>payeshgaransadra@gmail.com</p>
                   </div>
                 </div>
               </div>

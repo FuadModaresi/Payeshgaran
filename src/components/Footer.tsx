@@ -13,7 +13,7 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-3">ارتباط با ما</h4>
             <p className="mb-2">استان فارس، شهر جدید صدرا، دفتر دبیرخانه طرح ملی جنگلانه</p>
             <p className="mb-2">تلفن:۰۹۱۷۷۱۹۸۴۲۷</p>
-            <p className="mb-2">ایمیل: info@payeshgaran-sadra.org</p>
+            <p className="mb-2">ایمیل: payeshgaransadra@gmail.com</p>
           </div>
         </div>
         <div className="border-t border-green-700 mt-6 pt-6 text-center">
