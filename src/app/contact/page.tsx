@@ -3,48 +3,8 @@
 import { useState } from 'react';
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-  
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState({ success: false, message: '' });
+  const [submitResult] = useState({ success: false, message: '' });
   const [showResult, setShowResult] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    try {
-      // In a real application, this would be an API call to the backend
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Simulate successful submission
-      setSubmitResult({
-        success: true,
-        message: 'پیام شما با موفقیت ارسال شد. به زودی با شما تماس خواهیم گرفت.'
-      });
-      setShowResult(true);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    } catch {
-      setSubmitResult({
-        success: false,
-        message: 'متأسفانه در ارسال پیام خطایی رخ داد. لطفاً دوباره تلاش کنید.'
-      });
-      setShowResult(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="py-12 bg-gray-50">
