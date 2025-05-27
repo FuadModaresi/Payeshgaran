@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: 'payeshgaransadra@gmail.com', // Must be a verified sender in Resend
       to: 'payeshgaransadra@gmail.com',
-      reply_to: email, // <-- use reply_to instead of replyTo
+      replyTo: email, // <-- use reply_to instead of replyTo
       subject: 'پیام جدید از فرم تماس',
       html: `
         <p><strong>نام:</strong> ${name}</p>
