@@ -101,64 +101,51 @@ const ContactPage = () => {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form
+                  action="https://formsubmit.co/payeshgaransadra@gmail.com"
+                  method="POST"
+                  className="space-y-4"
+                >
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                  {/* Name */}
                   <div>
-                    <label htmlFor="name" className="block text-gray-700 mb-1">نام و نام خانوادگی *</label>
+                    <label htmlFor="name" className="block font-semibold mb-1">نام</label>
                     <input
                       type="text"
                       id="name"
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
                     />
                   </div>
-                  
+                  {/* Email */}
                   <div>
-                    <label htmlFor="email" className="block text-gray-700 mb-1">ایمیل *</label>
+                    <label htmlFor="email" className="block font-semibold mb-1">ایمیل</label>
                     <input
                       type="email"
                       id="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
                     />
                   </div>
-                  
+                  {/* Message */}
                   <div>
-                    <label htmlFor="phone" className="block text-gray-700 mb-1">شماره تماس</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-gray-700 mb-1">پیام *</label>
+                    <label htmlFor="message" className="block font-semibold mb-1">پیام</label>
                     <textarea
                       id="message"
                       name="message"
-                      value={formData.message}
-                      onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    ></textarea>
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                    />
                   </div>
-                  
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full py-3 px-6 rounded-lg text-white font-bold transition duration-300 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'}`}
+                    className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
                   >
-                    {isSubmitting ? 'در حال ارسال...' : 'ارسال پیام'}
+                    ارسال پیام
                   </button>
                 </form>
               )}

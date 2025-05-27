@@ -1,4 +1,3 @@
-
 import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,9 +16,9 @@ export async function POST(request: Request) {
 
     // Send email using Resend
     await resend.emails.send({
-      from: 'payeshgaransadra@gmail.com', // This should be a verified sender in Resend
+      from: 'payeshgaransadra@gmail.com', // Must be a verified sender in Resend
       to: 'payeshgaransadra@gmail.com',
-      replyTo: email,
+      reply_to: email, // <-- use reply_to instead of replyTo
       subject: 'پیام جدید از فرم تماس',
       html: `
         <p><strong>نام:</strong> ${name}</p>
