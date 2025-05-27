@@ -24,8 +24,9 @@ export async function POST(request: Request) {
 
     // Email options
     const mailOptions = {
-      from: email,
+      from: 'payeshgaransadra@gmail.com',
       to: 'payeshgaransadra@gmail.com',
+      replyTo: email,
       subject: `پیام جدید از فرم تماس`,
       text: `نام: ${name}\nایمیل: ${email}\nپیام:\n${message}`,
     };
