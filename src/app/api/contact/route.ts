@@ -1,3 +1,5 @@
+import nodemailer from 'nodemailer';
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -11,10 +13,26 @@ export async function POST(request: Request) {
       );
     }
 
-    // Simulate processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    GMAIL_APP_PASSWORD=your_app_password_here    // Configure transporter with your Gmail credentials
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'payeshgaransadra@gmail.com',
+        pass: process.env.GMAIL_APP_PASSWORD, // Use an App Password, not your Gmail password
+      },
+    });
 
-    // Return success response
+    // Email options
+    const mailOptions = {
+      from: email,
+      to: 'payeshgaransadra@gmail.com',
+      subject: `پیام جدید از فرم تماس`,
+      text: `نام: ${name}\nایمیل: ${email}\nپیام:\n${message}`,
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+
     return new Response(
       JSON.stringify({ 
         success: true, 
