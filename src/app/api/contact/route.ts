@@ -1,4 +1,6 @@
-import nodemailer from 'nodemailer';
+
+import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
@@ -13,26 +15,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // Configure transporter with your Gmail credentials
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'payeshgaransadra@gmail.com',
-        pass: process.env.GMAIL_APP_PASSWORD, // Use an App Password, not your Gmail password
-      },
-    });
-
-    // Email options
-    const mailOptions = {
-      from: 'payeshgaransadra@gmail.com',
+    // Send email using Resend
+    await resend.emails.send({
+      from: 'payeshgaransadra@gmail.com', // This should be a verified sender in Resend
       to: 'payeshgaransadra@gmail.com',
       replyTo: email,
-      subject: `پیام جدید از فرم تماس`,
-      text: `نام: ${name}\nایمیل: ${email}\nپیام:\n${message}`,
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
+      subject: 'پیام جدید از فرم تماس',
+      html: `
+        <p><strong>نام:</strong> ${name}</p>
+        <p><strong>ایمیل:</strong> ${email}</p>
+        <p><strong>پیام:</strong></p>
+        <p>${message}</p>
+      `,
+    });
 
     return new Response(
       JSON.stringify({ 
