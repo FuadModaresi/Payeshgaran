@@ -19,6 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl">
+      <head>
+        <link rel="icon" href="/favicon.ico" type="image/ico" />
+      </head>
       <body className={inter.className}>
         <Navbar />
         <main>{children}</main>
