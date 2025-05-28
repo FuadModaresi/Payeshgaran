@@ -1,11 +1,48 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // TypeScript may not have BeforeInstallPromptEvent by default, so define it if needed
+  interface BeforeInstallPromptEvent extends Event {
+    prompt: () => Promise<void>;
+    userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+  }
+  
+    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstall, setShowInstall] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Listen for the beforeinstallprompt event
+    const handler = (e: Event) => {
+      const event = e as BeforeInstallPromptEvent;
+      event.preventDefault();
+      setDeferredPrompt(event);
+      setShowInstall(true);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setShowInstall(false);
+      }
+    } else {
+      alert(
+        'برای افزودن به صفحه اصلی:\n\nدر اندروید: از منوی مرورگر گزینه "Add to Home Screen" را انتخاب کنید.\nدر آیفون: از منوی اشتراک‌گذاری (Share) گزینه "Add to Home Screen" را انتخاب کنید.'
+      );
+    }
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -35,52 +72,50 @@ const Navbar = () => {
             <Link href="/contact" className="px-3 py-2 hover:bg-green-700 rounded transition duration-300">
               تماس با ما
             </Link>
+            {/* Add to Home Screen */}
+            {mounted && (
+              <button
+                onClick={handleInstallClick}
+                className={`px-3 py-2 hover:bg-green-700 rounded transition duration-300${showInstall ? '' : ' hidden'}`}
+              >
+                افزودن به صفحه اصلی
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="text-white focus:outline-none"
-            >
+            <button onClick={toggleMenu}>
               {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Dropdown Menu */}
         {isOpen && (
-          <div className="md:hidden">
-            <div className="flex flex-col space-y-2 pb-4">
-              <Link 
-                href="/" 
-                className="px-3 py-2 hover:bg-green-700 rounded transition duration-300"
-                onClick={() => setIsOpen(false)}
+          <div className="md:hidden bg-green-800 px-4 pb-4 space-y-2">
+            <Link href="/" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+              صفحه اصلی
+            </Link>
+            <Link href="/about" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+              رسالت ما
+            </Link>
+            <Link href="/projects" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+              پروژه‌ها
+            </Link>
+            <Link href="/contact" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+              تماس با ما
+            </Link>
+            {/* Always show Add to Home Screen */}
+            {mounted && (
+              <button
+                type="button"
+                onClick={handleInstallClick}
+                className="block w-full text-right px-3 py-2 hover:bg-green-700 rounded transition duration-300"
               >
-                صفحه اصلی
-              </Link>
-              <Link 
-                href="/about" 
-                className="px-3 py-2 hover:bg-green-700 rounded transition duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                رسالت ما
-              </Link>
-              <Link 
-                href="/projects" 
-                className="px-3 py-2 hover:bg-green-700 rounded transition duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                پروژه‌ها
-              </Link>
-              <Link 
-                href="/contact" 
-                className="px-3 py-2 hover:bg-green-700 rounded transition duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                تماس با ما
-              </Link>
-            </div>
+                افزودن به صفحه اصلی
+              </button>
+            )}
           </div>
         )}
       </div>
