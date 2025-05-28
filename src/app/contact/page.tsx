@@ -5,6 +5,31 @@ import { useState } from 'react';
 const ContactPage = () => {
   const [submitResult] = useState({ success: false, message: '' });
   const [showResult, setShowResult] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  // Email validation function
+  const validateEmail = (value: string) => {
+    // Simple email regex
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(value);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (!validateEmail(e.target.value)) {
+      setEmailError('ایمیل وارد شده معتبر نیست.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!validateEmail(email)) {
+      setEmailError('ایمیل وارد شده معتبر نیست.');
+      e.preventDefault();
+    }
+  };
 
   return (
     <div className="py-12 bg-gray-50">
@@ -65,6 +90,7 @@ const ContactPage = () => {
                   action="https://formsubmit.co/payeshgaransadra@gmail.com"
                   method="POST"
                   className="space-y-4"
+                  onSubmit={handleFormSubmit}
                 >
                   <input type="hidden" name="_captcha" value="false" />
                   <input type="hidden" name="_template" value="table" />
@@ -87,8 +113,13 @@ const ContactPage = () => {
                       id="email"
                       name="email"
                       required
+                      value={email}
+                      onChange={handleEmailChange}
                       className="w-full border border-gray-300 rounded-lg px-3 py-2"
                     />
+                    {emailError && (
+                      <p className="text-red-600 text-sm mt-1">{emailError}</p>
+                    )}
                   </div>
                   {/* Message */}
                   <div>
