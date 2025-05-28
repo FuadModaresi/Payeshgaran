@@ -32,7 +32,7 @@ const Navbar = () => {
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt();
+     
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         setShowInstall(false);
@@ -93,20 +93,40 @@ const Navbar = () => {
 
         {/* Mobile Dropdown Menu */}
         {isOpen && (
-          <div className="md:hidden bg-green-800 px-4 pb-4 space-y-2">
-            <Link href="/" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+          <div
+            className={`md:hidden bg-green-800 px-4 pb-4 space-y-2
+              transition-all duration-300 ease-in-out
+              opacity-100 translate-y-0
+              animate-dropdown mobile-dropdown-menu`}
+          >
+            <Link
+              href="/"
+              className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300"
+              onClick={() => setIsOpen(false)}
+            >
               صفحه اصلی
             </Link>
-            <Link href="/about" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+            <Link
+              href="/about"
+              className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300"
+              onClick={() => setIsOpen(false)}
+            >
               رسالت ما
             </Link>
-            <Link href="/projects" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+            <Link
+              href="/projects"
+              className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300"
+              onClick={() => setIsOpen(false)}
+            >
               پروژه‌ها
             </Link>
-            <Link href="/contact" className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300">
+            <Link
+              href="/contact"
+              className="block px-3 py-2 hover:bg-green-700 rounded transition duration-300"
+              onClick={() => setIsOpen(false)}
+            >
               تماس با ما
             </Link>
-            {/* Always show Add to Home Screen */}
             {mounted && (
               <button
                 type="button"
