@@ -1,26 +1,57 @@
-import Image from 'next/image';
+'use client';
+
+import ReactPlayer from 'react-player';
+import { useState } from 'react';
+
+function getAparatEmbed(url: string) {
+  // Extract hash from Aparat URL
+  const match = url.match(/aparat\.com\/v\/([a-zA-Z0-9]+)/);
+  return match ? `https://www.aparat.com/video/video/embed/videohash/${match[1]}/vt/frame` : null;
+}
 
 const AboutPage = () => {
+  const [videoUrl, setVideoUrl] = useState('https://www.aparat.com/v/XpP5Z');
+
+  const aparatEmbed = getAparatEmbed(videoUrl);
+  const isAparat = Boolean(aparatEmbed);
+
   return (
-    <div className="py-12 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-center mb-12 text-green-800">رسالت ما</h1>
-        
-        <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="relative h-64 md:h-80">
-            <Image
-              src="/images/reforestation_project.jpeg"
-              alt="طبیعت ایران"
-              fill
-              style={{ objectFit: 'cover' }}
+    <>
+      {/* Media Player Section */}
+      <div className="w-full flex flex-col items-center bg-black py-4">
+        <div className="w-full max-w-2xl aspect-video rounded-lg overflow-hidden shadow-lg">
+          {isAparat ? (
+            <iframe
+              src={aparatEmbed!}
+              width="100%"
+              height="100%"
+              allowFullScreen
+              style={{ border: 0 }}
+            ></iframe>
+          ) : (
+            <ReactPlayer
+              url={videoUrl}
+              width="100%"
+              height="100%"
+              controls
+              playing={false}
             />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-              <h2 className="text-white text-2xl md:text-3xl font-bold px-4 text-center">
-                پایش زیست بوم، آسایش و آرامش ماست 
-              </h2>
-            </div>
-          </div>
-          
+          )}
+        </div>
+        <div className="w-full max-w-2xl mt-2">
+          <input
+            type="text"
+            value={videoUrl}
+            onChange={e => setVideoUrl(e.target.value)}
+            placeholder="لینک ویدیو از آپارات، یوتیوب یا اینستاگرام"
+            className="w-full border rounded px-3 py-2 mt-2 text-black"
+          />
+        </div>
+      </div>
+
+      {/* Existing About Page Content */}
+      <div className="py-12 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4">
           <div className="p-6 md:p-8">
             <h3 className="text-xl font-bold mb-4 text-green-800">درباره پایشگران زیست بوم صدرا</h3>
             <p className="text-gray-700 mb-6 leading-relaxed">
@@ -44,31 +75,17 @@ const AboutPage = () => {
               </p>
               <p className="flex items-start">
                 <span className="text-green-600 ml-2">•</span>
-                <span>آموزش و فرهنگ‌سازی در زمینه حفاظت از محیط زیست و اهمیت درختکاری</span>
+                <span>توسعه فرهنگ حفاظت از محیط زیست و جلب مشارکت‌های مردمی</span>
               </p>
               <p className="flex items-start">
                 <span className="text-green-600 ml-2">•</span>
-                <span>ایجاد اشتغال سبز برای جوامع محلی از طریق پروژه‌های زیست‌محیطی</span>
-              </p>
-              <p className="flex items-start">
-                <span className="text-green-600 ml-2">•</span>
-                <span>همکاری با سازمان‌ها و نهادهای دولتی و غیردولتی در راستای حفاظت از محیط زیست</span>
-              </p>
-            </div>
-            
-            <div className="bg-green-50 p-5 rounded-lg">
-              <h3 className="text-xl font-bold mb-4 text-green-800">افق آینده محیط زیست ایران</h3>
-              <p className="text-gray-700 leading-relaxed">
-                با توجه به مشکلات زیست‌محیطی کنونی و تغییرات اقلیمی در ایران، آینده محیط زیست این کشور در شرایط حساسی قرار دارد. کارشناسان بر این باورند که با اتخاذ تدابیر مناسب و رویکردهای پایدار، می‌توان بهبودی در وضعیت محیط زیست ایجاد کرد. ما در پایشگران زیست بوم صدرا متعهد هستیم که با تلاش مستمر و همکاری با جوامع محلی، سهم خود را در این مسیر ایفا کنیم.
-              </p>
-              <p className="text-sm text-gray-500 mt-3">
-                منبع: پایگاه خبری رادیو طبیعت - بایگانی‌های محیط زیست ایران
+                <span>همکاری با سازمان‌ها و نهادهای دولتی و غیردولتی برای پیشبرد اهداف زیست‌محیطی</span>
               </p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
