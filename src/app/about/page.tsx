@@ -1,7 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
-import { useState } from 'react';
 
 function getAparatEmbed(url: string) {
   // Extract hash from Aparat URL
@@ -11,6 +11,12 @@ function getAparatEmbed(url: string) {
 
 const AboutPage = () => {
   const [videoUrl, setVideoUrl] = useState('https://www.aparat.com/v/XpP5Z');
+  const [isClient, setIsClient] = useState(false);
+
+  // This useEffect will only run on the client side, after the component has mounted.
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const aparatEmbed = getAparatEmbed(videoUrl);
   const isAparat = Boolean(aparatEmbed);
@@ -19,7 +25,7 @@ const AboutPage = () => {
     <>
       {/* Media Player Section */}
       <div className="w-full flex flex-col items-center bg-black py-4">
-        <div className="w-full max-w-2xl aspect-video rounded-lg overflow-hidden shadow-lg">
+        <div className="w-full max-w-2xl aspect-video rounded-lg overflow-hidden shadow-lg bg-gray-900">
           {isAparat ? (
             <iframe
               src={aparatEmbed!}
@@ -27,15 +33,19 @@ const AboutPage = () => {
               height="100%"
               allowFullScreen
               style={{ border: 0 }}
+              title="Aparat Video Player"
             ></iframe>
           ) : (
-            <ReactPlayer
-              url={videoUrl}
-              width="100%"
-              height="100%"
-              controls
-              playing={false}
-            />
+            // We only render ReactPlayer on the client-side to avoid build errors.
+            isClient && (
+              <ReactPlayer
+                url={videoUrl}
+                width="100%"
+                height="100%"
+                controls
+                playing={false}
+              />
+            )
           )}
         </div>
         <div className="w-full max-w-2xl mt-2">
