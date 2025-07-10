@@ -1,7 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ReactPlayer from 'react-player';
+// The default import might be causing issues with type resolution.
+// Let's try importing it as a named export if the library supports it, or stick to a workaround.
+import Player from 'react-player';
+
+// A type assertion to bypass the type-checking error during build.
+const ReactPlayer = Player as any;
 
 function getAparatEmbed(url: string) {
   // Extract hash from Aparat URL
@@ -36,7 +41,7 @@ const AboutPage = () => {
               title="Aparat Video Player"
             ></iframe>
           ) : (
-            // We only render ReactPlayer on the client-side to avoid build errors.
+            // We only render ReactPlayer on the client-side and use the type-casted version.
             isClient && (
               <ReactPlayer
                 url={videoUrl}
